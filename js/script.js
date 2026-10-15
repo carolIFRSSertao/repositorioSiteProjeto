@@ -37,8 +37,36 @@ document.addEventListener
 
     }
 
+    function nextSlide(){
+        showSlide(slideAtual + 1);
+    }
 
+    function prevSlide(){
+        showSlide(slideAtual - 1);
+    }
 
+    function startSlide(){
+        slideIntervalo = setInterval(nextSlide,5000);
+    }    
+
+    function stopSlide(){
+        console.log("Valor intervalo", slideIntervalo);
+        clearInterval(slideIntervalo);
+    }
+
+    nextBtn.addEventListener("click", () => {
+        nextSlide();
+        stopSlide();
+        startSlide();
+    });
+
+    prevBtn.addEventListener("click", () =>{
+        prevSlide();
+        stopSlide();
+        startSlide();
+    });
+
+    startSlide();
 
 
 
