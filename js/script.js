@@ -65,8 +65,77 @@ document.addEventListener
         stopSlide();
         startSlide();
     });
+    
+    dots.forEach((dot) =>{
+        dot.addEventListener("click", (e) =>{
+            const index = parseInt(e.target.getAttribute("data-index"));
+            showSlide(index);
+            stopSlide();
+            startSlide();    
+        });
+    });
 
+    //Iniciar os slides de forma automática
     startSlide();
+
+    //Validação campos formulário
+    const contatoForm = document.getElementById("contatoForm");
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const mensagem = document.getElementById("mensagem");
+
+    contatoForm.addEventListener("submit",(event) =>{
+        event.preventDefault();
+
+        let isValid = true;
+
+        //Validação do campo nome (mínimo 3 caracteres)
+        if(name.value.trim().length < 3)
+        {
+            showErro(name,"O nome deve ter no mínimo três caracteres");
+            isValid = false;
+        }
+
+        //Verificar se campo e-mail é válido
+        if(!isEmailValid(email.value.trim()))
+        {
+            showErro(email,"Insira um e-mail válido");
+            isValid = false;
+        }
+
+        //Validação do campo mensagem (mínimo 10 caracteres)
+        if(mensagem.value.trim().length < 10)
+        {
+            showErro(mensagem,"O campo deve ter no mínimo 10 caracteres");
+            isValid = false;
+        }
+
+        //Verificar se ocorreu tudo certo
+        if(isValid)
+        {
+            clearError();
+            alert("Mensagem enviado com sucesso");
+            contatoForm.reset();
+        }
+    });
+
+    function isEmailValid (email)
+    {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+
+    function showErro(inputElement, mensagem)
+    {
+        const formGroup = inputElement.parentElement;
+        clearFieldError(inputElement);
+        const erroMensagem = document.createElement("small");
+        erroMensagem.className = "error-text";
+        erroMensagem.innerText = mensagem;
+        formGroup.appendChild(erroMensagem);
+    }
+
 
 
 
